@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mera Enterprises - Kirana Store</title>
+<style>
+:root{--green:#167a45;--dark:#163323;--light:#f4faf5;--line:#dce8df}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,"Noto Sans Devanagari",sans-serif;color:#17251c;background:#f8fbf8}
+header{background:var(--green);color:white;padding:18px 16px}
+.wrap{max-width:1100px;margin:auto;padding:0 14px}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand h1{margin:0;font-size:25px}.brand p{margin:6px 0 0;font-size:14px}
+.badge{background:#fff;color:var(--green);border-radius:20px;padding:9px 13px;font-weight:bold}
+.hero{padding:22px 0}.hero h2{margin:0 0 7px;font-size:24px}.hero p{margin:0;color:#4b5b50}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.tools input,.tools select{padding:11px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:15px}
+.tools input{flex:1;min-width:180px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;align-items:start}
+.products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.card,.panel{background:white;border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 2px 8px #1533230a}
+.emoji{font-size:36px;background:var(--light);border-radius:10px;text-align:center;padding:14px}
+.card h3{font-size:16px;margin:10px 0 4px}.unit{color:#66756a;font-size:13px}.price{font-size:18px;font-weight:bold;color:var(--green);margin:9px 0}
+button{border:0;border-radius:9px;background:var(--green);color:white;padding:10px 12px;font-weight:bold;cursor:pointer}
+button.secondary{background:#e8f3eb;color:var(--dark)}button:disabled{opacity:.45;cursor:not-allowed}
+.panel{position:sticky;top:10px}.panel h2{font-size:20px;margin:0 0 12px}.cartline{display:flex;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid #edf2ee;font-size:14px}.cartline button{padding:3px 8px;margin-left:3px}
+.total{display:flex;justify-content:space-between;font-weight:bold;font-size:18px;margin:14px 0}
+form label{display:block;font-size:13px;margin:10px 0 5px;font-weight:bold}form input,form textarea,form select{width:100%;padding:11px;border:1px solid #cad9ce;border-radius:8px;font:inherit;background:#fff}
+form textarea{min-height:70px;resize:vertical}.full{width:100%;margin-top:10px}
+.note{font-size:12px;line-height:1.5;color:#5d6b60}.empty{color:#69766c;font-size:14px}
+footer{text-align:center;padding:25px 12px;color:#68766b;font-size:13px}
+#status{font-size:13px;line-height:1.5;margin-top:8px;color:var(--green)}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.panel{position:static}.products{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:450px){.products{grid-template-columns:1fr 1fr}.card{padding:10px}.card h3{font-size:14px}.emoji{font-size:28px;padding:10px}.brand h1{font-size:21px}}
+</style>
+</head>
+<body>
+<header><div class="wrap brand"><div><h1 id="storeTitle">Mera Enterprises</h1><p>आपकी किराना दुकान · 3 किलोमीटर के अंदर होम डिलीवरी</p></div><div class="badge">🛒 कार्ट: <span id="cartCount">0</span></div></div></header>
+<main class="wrap">
+<section class="hero"><h2>आपका स्वागत है!</h2><p>सामान चुनें, कार्ट में डालें और वेबसाइट पर ऑर्डर फॉर्म भरें।</p>
+<div class="tools"><input id="search" type="search" placeholder="सामान खोजें…"><select id="category"><option value="all">सभी कैटेगरी</option><option>अनाज</option><option>दाल</option><option>तेल</option><option>मसाले</option><option>अन्य</option></select></div></section>
+<div class="layout"><section><div id="products" class="products"></div></section>
+<aside class="panel"><h2>आपका कार्ट</h2><div id="cartItems" class="empty">अभी कार्ट खाली है।</div><div class="total"><span>कुल राशि</span><span>₹<span id="total">0</span></span></div>
+<h2>ऑर्डर फॉर्म</h2>
+<form id="orderForm" action="https://formsubmit.co/iloveyou9390@gmail.com" method="POST">
+<input type="hidden" name="_subject" value="नया किराना ऑर्डर">
+<input type="hidden" name="_captcha" value="false">
+<input type="hidden" name="ऑर्डर के सामान" id="orderDetails">
+<input type="hidden" name="कुल राशि" id="orderTotal">
+<label for="customer">आपका नाम *</label><input id="customer" name="ग्राहक का नाम" required>
+<label for="phone">मोबाइल नंबर *</label><input id="phone" name="मोबाइल नंबर" type="tel" inputmode="numeric" pattern="[0-9]{10}" placeholder="10 अंकों का मोबाइल नंबर" required>
+<label for="address">पूरा पता *</label><textarea id="address" name="डिलीवरी पता" required placeholder="गाँव/मोहल्ला, वार्ड, नज़दीकी जगह"></textarea>
+<label for="payment">पेमेंट का तरीका</label><select id="payment" name="पेमेंट का तरीका"><option>Cash on Delivery (डिलीवरी पर नकद)</option><option>UPI (डिलीवरी के समय)</option></select>
+<label for="instructions">अतिरिक्त जानकारी (वैकल्पिक)</label><textarea id="instructions" name="अतिरिक्त जानकारी" placeholder="जैसे—कम/ज़्यादा मात्रा, डिलीवरी निर्देश"></textarea>
+<button class="full" type="submit">ऑर्डर भेजें</button><div id="status" role="status"></div>
+</form>
+<p class="note">ध्यान दें: वेबसाइट पर ऑर्डर भेजने की सुविधा चालू करने के लिए README में दिए गए ईमेल सेटअप को एक बार पूरा करें। कीमतें अभी उदाहरण हैं—अपनी दुकान की सही कीमतें डालें। डिलीवरी दुकान से 3 किलोमीटर के अंदर है।</p>
+</aside></div></main>
+<footer>© <span id="year"></span> <span id="footerTitle">Mera Enterprises</span> · ऑनलाइन किराना ऑर्डर</footer>
+<script>
+// अपनी दुकान के प्रोडक्ट और कीमतें नीचे बदलें। कीमतें केवल उदाहरण हैं।
+const products = [
+ {id:1,name:"चावल",unit:"1 किलो",price:45,cat:"अनाज",emoji:"🍚"},
+ {id:2,name:"आटा",unit:"1 किलो",price:35,cat:"अनाज",emoji:"🌾"},
+ {id:3,name:"अरहर दाल",unit:"1 किलो",price:120,cat:"दाल",emoji:"🫘"},
+ {id:4,name:"चना दाल",unit:"1 किलो",price:85,cat:"दाल",emoji:"🟡"},
+ {id:5,name:"सरसों तेल",unit:"1 लीटर",price:150,cat:"तेल",emoji:"🫗"},
+ {id:6,name:"रिफाइंड तेल",unit:"1 लीटर",price:135,cat:"तेल",emoji:"🧴"},
+ {id:7,name:"नमक",unit:"1 किलो",price:25,cat:"मसाले",emoji:"🧂"},
+ {id:8,name:"हल्दी पाउडर",unit:"100 ग्राम",price:30,cat:"मसाले",emoji:"🟠"},
+ {id:9,name:"चीनी",unit:"1 किलो",price:45,cat:"अन्य",emoji:"🍬"},
+ {id:10,name:"चाय पत्ती",unit:"250 ग्राम",price:90,cat:"अन्य",emoji:"🍵"},
+ {id:11,name:"बिस्कुट",unit:"पैकेट",price:10,cat:"अन्य",emoji:"🍪"},
+ {id:12,name:"साबुन",unit:"पीस",price:35,cat:"अन्य",emoji:"🧼"}
+];
+const cart = {};
+const rupees = n => Number(n).toLocaleString("en-IN");
+function renderProducts(){
+ const q=document.getElementById("search").value.trim().toLowerCase();
+ const cat=document.getElementById("category").value;
+ const list=products.filter(p=>(p.name.toLowerCase().includes(q)||p.cat.toLowerCase().includes(q))&&(cat==="all"||p.cat===cat));
+ document.getElementById("products").innerHTML=list.map(p=>`<article class="card"><div class="emoji">${p.emoji}</div><h3>${p.name}</h3><div class="unit">${p.unit}</div><div class="price">₹${rupees(p.price)}</div><button onclick="addToCart(${p.id})">कार्ट में डालें</button></article>`).join("")||'<p class="empty">कोई सामान नहीं मिला।</p>';
+}
+function addToCart(id){cart[id]=(cart[id]||0)+1;renderCart()}
+function changeQty(id,delta){cart[id]=(cart[id]||0)+delta;if(cart[id]<=0)delete cart[id];renderCart()}
+function renderCart(){
+ const entries=Object.entries(cart);
+ document.getElementById("cartCount").textContent=entries.reduce((s,[,q])=>s+q,0);
+ document.getElementById("cartItems").innerHTML=entries.length?entries.map(([id,q])=>{const p=products.find(x=>x.id===Number(id));return `<div class="cartline"><div>${p.name}<br><small>₹${rupees(p.price)} × ${q}</small></div><div><b>₹${rupees(p.price*q)}</b><br><button type="button" class="secondary" onclick="changeQty(${id},-1)">−</button><button type="button" class="secondary" onclick="changeQty(${id},1)">+</button></div></div>`}).join(""):'<p class="empty">अभी कार्ट खाली है।</p>';
+ const total=entries.reduce((s,[id,q])=>s+products.find(p=>p.id===Number(id)).price*q,0);
+ document.getElementById("total").textContent=rupees(total);
+}
+document.getElementById("search").addEventListener("input",renderProducts);
+document.getElementById("category").addEventListener("change",renderProducts);
+document.getElementById("orderForm").addEventListener("submit",function(e){
+ const entries=Object.entries(cart);
+ if(!entries.length){e.preventDefault();document.getElementById("status").textContent="पहले कम-से-कम एक सामान कार्ट में डालें।";return}
+ const details=entries.map(([id,q])=>{const p=products.find(x=>x.id===Number(id));return `${p.name} (${p.unit}) × ${q} = ₹${p.price*q}`}).join(" | ");
+ document.getElementById("orderDetails").value=details;
+ document.getElementById("orderTotal").value="₹"+document.getElementById("total").textContent;
+ if(this.action.includes("iloveyou9390@gmail.com")){e.preventDefault();document.getElementById("status").textContent="ऑर्डर भेजने से पहले README में अपना ईमेल सेट करें।";}
+});
+document.getElementById("year").textContent=new Date().getFullYear();
+renderProducts();renderCart();
+</script>
+</body></html>
